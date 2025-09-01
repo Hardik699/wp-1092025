@@ -2743,9 +2743,9 @@ Generated on: ${new Date().toLocaleString()}
               <CardHeader className="border-b border-slate-700">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-4">
-                    {employeeDetailModal.employee.photo && (
+                    {(employeeDetailModal.isEditing ? editPhotoPreview || employeeDetailModal.employee.photo : employeeDetailModal.employee.photo) && (
                       <img
-                        src={employeeDetailModal.employee.photo}
+                        src={employeeDetailModal.isEditing ? editPhotoPreview || employeeDetailModal.employee.photo : employeeDetailModal.employee.photo}
                         alt={employeeDetailModal.employee.fullName}
                         className="w-16 h-16 rounded-full object-cover border-2 border-slate-600"
                       />
