@@ -275,6 +275,9 @@ export default function HRDashboard() {
     activeTab: "details",
   });
 
+  // Photo edit state
+  const [editPhotoPreview, setEditPhotoPreview] = useState<string>("");
+
   // Salary management state
   const [salaryRecords, setSalaryRecords] = useState<SalaryRecord[]>([]);
   const [salaryForm, setSalaryForm] = useState({
