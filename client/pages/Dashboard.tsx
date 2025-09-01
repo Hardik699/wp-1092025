@@ -48,7 +48,7 @@ export default function Dashboard() {
                 Admin
               </CardTitle>
             </CardHeader>
-            <CardContent className="flex flex-col gap-3 relative z-10">
+            <CardContent className="flex flex-col justify-between h-32 relative z-10">
               <p className="text-slate-400 group-hover:text-slate-300 transition-colors duration-300 text-sm">
                 Admin tools and settings
               </p>
@@ -69,7 +69,7 @@ export default function Dashboard() {
                 IT
               </CardTitle>
             </CardHeader>
-            <CardContent className="flex flex-col gap-3 relative z-10">
+            <CardContent className="flex flex-col justify-between h-32 relative z-10">
               <p className="text-slate-400 group-hover:text-slate-300 transition-colors duration-300 text-sm">
                 IT accounts and credentials management
               </p>
@@ -90,7 +90,7 @@ export default function Dashboard() {
                 System Info
               </CardTitle>
             </CardHeader>
-            <CardContent className="flex flex-col gap-3 relative z-10">
+            <CardContent className="flex flex-col justify-between h-32 relative z-10">
               <p className="text-slate-400 group-hover:text-slate-300 transition-colors duration-300 text-sm">
                 IT systems overview and records
               </p>
@@ -111,7 +111,7 @@ export default function Dashboard() {
                 PC/Laptop Info
               </CardTitle>
             </CardHeader>
-            <CardContent className="flex flex-col gap-3 relative z-10">
+            <CardContent className="flex flex-col justify-between h-32 relative z-10">
               <p className="text-slate-400 group-hover:text-slate-300 transition-colors duration-300 text-sm">
                 Track PC and laptop assets
               </p>
