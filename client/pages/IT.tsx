@@ -229,9 +229,9 @@ export default function ITPage() {
                   <Shield className="h-4 w-4 text-blue-400" />
                 </div>
                 <div>
-                  <p className="text-blue-100 font-medium">Form Pre-filled from HR</p>
+                  <p className="text-blue-100 font-medium">Form Pre-filled from HR Notification</p>
                   <p className="text-blue-300 text-sm">
-                    Employee details have been automatically loaded from HR department
+                    Employee Name, Department, and Table Number have been automatically loaded
                   </p>
                 </div>
               </div>
