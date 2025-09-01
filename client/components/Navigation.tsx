@@ -230,7 +230,7 @@ export default function AppNav() {
                             }}
                           >
                             <LayoutDashboard className="h-4 w-4 mr-2" />
-                            Dashboard
+                            IT Dashboard
                           </Button>
                           <Button
                             variant="outline"
