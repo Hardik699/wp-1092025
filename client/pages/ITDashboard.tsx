@@ -74,6 +74,17 @@ interface Department {
   name: string;
 }
 
+interface PendingITNotification {
+  id: string;
+  employeeId: string;
+  employeeName: string;
+  department: string;
+  tableNumber: string;
+  email: string;
+  createdAt: string;
+  processed: boolean;
+}
+
 export default function ITDashboard() {
   const [records, setRecords] = useState<ITRecord[]>([]);
   const [employees, setEmployees] = useState<Employee[]>([]);
