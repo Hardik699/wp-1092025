@@ -17,43 +17,6 @@ export default function Dashboard() {
           </div>
         </header>
 
-        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <Card className="bg-slate-900/50 border-slate-700 backdrop-blur-sm">
-            <CardContent className="p-6 flex items-center justify-between">
-              <div>
-                <p className="text-slate-400 text-sm">Employees</p>
-                <p className="text-2xl font-semibold text-white">Manage</p>
-              </div>
-              <div className="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center">
-                <Users className="h-6 w-6 text-blue-400" />
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-slate-900/50 border-slate-700 backdrop-blur-sm">
-            <CardContent className="p-6 flex items-center justify-between">
-              <div>
-                <p className="text-slate-400 text-sm">Departments</p>
-                <p className="text-2xl font-semibold text-white">Overview</p>
-              </div>
-              <div className="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center">
-                <Building2 className="h-6 w-6 text-green-400" />
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-slate-900/50 border-slate-700 backdrop-blur-sm">
-            <CardContent className="p-6 flex items-center justify-between">
-              <div>
-                <p className="text-slate-400 text-sm">Access</p>
-                <p className="text-2xl font-semibold text-white">Admin</p>
-              </div>
-              <div className="w-12 h-12 bg-purple-500/20 rounded-lg flex items-center justify-center">
-                <Shield className="h-6 w-6 text-purple-400" />
-              </div>
-            </CardContent>
-          </Card>
-        </section>
 
         <section className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
           <Card className="group bg-gradient-to-br from-slate-900/80 to-slate-800/60 border-slate-700/50 backdrop-blur-sm hover:border-blue-500/50 hover:shadow-xl hover:shadow-blue-500/10 transition-all duration-300 hover:scale-[1.02] cursor-pointer relative overflow-hidden">
