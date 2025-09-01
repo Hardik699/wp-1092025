@@ -475,6 +475,20 @@ export default function HRDashboard() {
       }
     };
 
+  // Handle photo upload for edit form
+  const handleEditPhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const result = e.target?.result as string;
+        setEditPhotoPreview(result);
+        handleEditFormChange("photo", result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   // Handle employee creation
   const handleCreateEmployee = async (e: React.FormEvent) => {
     e.preventDefault();
