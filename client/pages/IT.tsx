@@ -83,13 +83,13 @@ export default function ITPage() {
     if (employees.length > 0) {
       // Check for URL parameters to pre-fill form
       const urlParams = new URLSearchParams(window.location.search);
-      const preEmployeeId = urlParams.get('employeeId');
-      const preDepartment = urlParams.get('department');
-      const preTableNumber = urlParams.get('tableNumber');
+      const preEmployeeId = urlParams.get("employeeId");
+      const preDepartment = urlParams.get("department");
+      const preTableNumber = urlParams.get("tableNumber");
 
       if (preEmployeeId) {
         // Verify the employee exists in the loaded data
-        const foundEmployee = employees.find(emp => emp.id === preEmployeeId);
+        const foundEmployee = employees.find((emp) => emp.id === preEmployeeId);
         if (foundEmployee) {
           setEmployeeId(preEmployeeId);
           setDepartment(preDepartment || foundEmployee.department);
@@ -97,7 +97,11 @@ export default function ITPage() {
           setIsPreFilled(true);
 
           // Clear URL parameters after loading to clean up the URL
-          window.history.replaceState({}, document.title, window.location.pathname);
+          window.history.replaceState(
+            {},
+            document.title,
+            window.location.pathname,
+          );
         }
       }
     }
@@ -118,7 +122,9 @@ export default function ITPage() {
         : [];
 
       // Filter out assigned IDs to show only available ones
-      const available = pcLaptopIds.filter((id: string) => !assignedIds.includes(id));
+      const available = pcLaptopIds.filter(
+        (id: string) => !assignedIds.includes(id),
+      );
       setAvailableSystemIds(available);
     }
   };
@@ -229,9 +235,12 @@ export default function ITPage() {
                   <Shield className="h-4 w-4 text-blue-400" />
                 </div>
                 <div>
-                  <p className="text-blue-100 font-medium">Form Pre-filled from HR Notification</p>
+                  <p className="text-blue-100 font-medium">
+                    Form Pre-filled from HR Notification
+                  </p>
                   <p className="text-blue-300 text-sm">
-                    Employee Name, Department, and Table Number have been automatically loaded
+                    Employee Name, Department, and Table Number have been
+                    automatically loaded
                   </p>
                 </div>
               </div>
@@ -268,7 +277,10 @@ export default function ITPage() {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <Label className="text-slate-300">System ID</Label>
-                    <Badge variant="secondary" className="bg-slate-700 text-slate-300">
+                    <Badge
+                      variant="secondary"
+                      className="bg-slate-700 text-slate-300"
+                    >
                       {availableSystemIds.length} available
                     </Badge>
                   </div>
@@ -285,16 +297,19 @@ export default function ITPage() {
                 </div>
                 <Select value={systemId} onValueChange={setSystemId}>
                   <SelectTrigger className="bg-slate-800/50 border-slate-700 text-white">
-                    <SelectValue placeholder={
-                      availableSystemIds.length
-                        ? "Select available PC/Laptop ID"
-                        : "No PC/Laptop IDs available"
-                    } />
+                    <SelectValue
+                      placeholder={
+                        availableSystemIds.length
+                          ? "Select available PC/Laptop ID"
+                          : "No PC/Laptop IDs available"
+                      }
+                    />
                   </SelectTrigger>
                   <SelectContent className="bg-slate-800 border-slate-700 text-white max-h-64">
                     {availableSystemIds.length === 0 ? (
                       <div className="px-3 py-2 text-slate-400">
-                        No available PC/Laptop IDs. Create some in PC/Laptop Info first.
+                        No available PC/Laptop IDs. Create some in PC/Laptop
+                        Info first.
                       </div>
                     ) : (
                       availableSystemIds.map((id) => (

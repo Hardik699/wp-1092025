@@ -41,7 +41,7 @@ import {
   Clock,
   Activity,
   Bell,
-  Settings
+  Settings,
 } from "lucide-react";
 
 interface ITRecord {
@@ -91,7 +91,9 @@ export default function ITDashboard() {
   const [departments, setDepartments] = useState<Department[]>([]);
   const [query, setQuery] = useState("");
   const [deptFilter, setDeptFilter] = useState("all");
-  const [pendingNotifications, setPendingNotifications] = useState<PendingITNotification[]>([]);
+  const [pendingNotifications, setPendingNotifications] = useState<
+    PendingITNotification[]
+  >([]);
 
   useEffect(() => {
     const its = localStorage.getItem("itAccounts");
@@ -104,27 +106,37 @@ export default function ITDashboard() {
     if (pending) {
       const notifications = JSON.parse(pending);
       // Only show unprocessed notifications
-      setPendingNotifications(notifications.filter((n: PendingITNotification) => !n.processed));
+      setPendingNotifications(
+        notifications.filter((n: PendingITNotification) => !n.processed),
+      );
     }
   }, []);
 
   const handleProcessEmployee = (notification: PendingITNotification) => {
     // Mark notification as processed
-    const allNotifications = JSON.parse(localStorage.getItem("pendingITNotifications") || "[]");
-    const updatedNotifications = allNotifications.map((n: PendingITNotification) =>
-      n.id === notification.id ? { ...n, processed: true } : n
+    const allNotifications = JSON.parse(
+      localStorage.getItem("pendingITNotifications") || "[]",
     );
-    localStorage.setItem("pendingITNotifications", JSON.stringify(updatedNotifications));
+    const updatedNotifications = allNotifications.map(
+      (n: PendingITNotification) =>
+        n.id === notification.id ? { ...n, processed: true } : n,
+    );
+    localStorage.setItem(
+      "pendingITNotifications",
+      JSON.stringify(updatedNotifications),
+    );
 
     // Remove from current display
-    setPendingNotifications(prev => prev.filter(n => n.id !== notification.id));
+    setPendingNotifications((prev) =>
+      prev.filter((n) => n.id !== notification.id),
+    );
 
     // Navigate to IT form with pre-filled data
     const urlParams = new URLSearchParams({
       employeeId: notification.employeeId,
       employeeName: notification.employeeName,
       department: notification.department,
-      tableNumber: notification.tableNumber
+      tableNumber: notification.tableNumber,
     });
     window.location.href = `/it?${urlParams.toString()}`;
   };
@@ -206,15 +218,22 @@ export default function ITDashboard() {
                             <span className="font-medium text-white">
                               {notification.employeeName}
                             </span>
-                            <Badge variant="secondary" className="bg-orange-500/20 text-orange-400 text-xs">
+                            <Badge
+                              variant="secondary"
+                              className="bg-orange-500/20 text-orange-400 text-xs"
+                            >
                               New
                             </Badge>
                           </div>
                           <div className="text-xs text-slate-400">
-                            {notification.department} • Table {notification.tableNumber}
+                            {notification.department} • Table{" "}
+                            {notification.tableNumber}
                           </div>
                           <div className="text-xs text-slate-500">
-                            Created {new Date(notification.createdAt).toLocaleDateString()}
+                            Created{" "}
+                            {new Date(
+                              notification.createdAt,
+                            ).toLocaleDateString()}
                           </div>
                           <Button
                             size="sm"

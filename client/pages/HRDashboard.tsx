@@ -538,7 +538,9 @@ export default function HRDashboard() {
     saveDepartments(updatedDepartments);
 
     // Add notification for IT department
-    const pendingITNotifications = JSON.parse(localStorage.getItem("pendingITNotifications") || "[]");
+    const pendingITNotifications = JSON.parse(
+      localStorage.getItem("pendingITNotifications") || "[]",
+    );
     const itNotification = {
       id: employee.id,
       employeeId: employee.id,
@@ -547,10 +549,13 @@ export default function HRDashboard() {
       tableNumber: employee.tableNumber,
       email: employee.email,
       createdAt: new Date().toISOString(),
-      processed: false
+      processed: false,
     };
     pendingITNotifications.push(itNotification);
-    localStorage.setItem("pendingITNotifications", JSON.stringify(pendingITNotifications));
+    localStorage.setItem(
+      "pendingITNotifications",
+      JSON.stringify(pendingITNotifications),
+    );
 
     // Reset form
     setNewEmployee({
@@ -2743,9 +2748,16 @@ Generated on: ${new Date().toLocaleString()}
               <CardHeader className="border-b border-slate-700">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-4">
-                    {(employeeDetailModal.isEditing ? editPhotoPreview || employeeDetailModal.employee.photo : employeeDetailModal.employee.photo) && (
+                    {(employeeDetailModal.isEditing
+                      ? editPhotoPreview || employeeDetailModal.employee.photo
+                      : employeeDetailModal.employee.photo) && (
                       <img
-                        src={employeeDetailModal.isEditing ? editPhotoPreview || employeeDetailModal.employee.photo : employeeDetailModal.employee.photo}
+                        src={
+                          employeeDetailModal.isEditing
+                            ? editPhotoPreview ||
+                              employeeDetailModal.employee.photo
+                            : employeeDetailModal.employee.photo
+                        }
                         alt={employeeDetailModal.employee.fullName}
                         className="w-16 h-16 rounded-full object-cover border-2 border-slate-600"
                       />
@@ -2863,9 +2875,13 @@ Generated on: ${new Date().toLocaleString()}
                     <div className="flex items-center space-x-6">
                       {/* Current/New Photo Display */}
                       <div className="w-32 h-32 border-2 border-dashed border-slate-600 rounded-lg flex items-center justify-center bg-slate-800/30 overflow-hidden">
-                        {editPhotoPreview || employeeDetailModal.employee.photo ? (
+                        {editPhotoPreview ||
+                        employeeDetailModal.employee.photo ? (
                           <img
-                            src={editPhotoPreview || employeeDetailModal.employee.photo}
+                            src={
+                              editPhotoPreview ||
+                              employeeDetailModal.employee.photo
+                            }
                             alt="Employee"
                             className="w-full h-full object-cover rounded-lg"
                           />
@@ -2892,11 +2908,14 @@ Generated on: ${new Date().toLocaleString()}
                             className="border-blue-600 text-blue-400 hover:bg-blue-600 hover:text-white"
                           >
                             <Upload className="h-4 w-4 mr-2" />
-                            {employeeDetailModal.employee.photo ? "Change Photo" : "Add Photo"}
+                            {employeeDetailModal.employee.photo
+                              ? "Change Photo"
+                              : "Add Photo"}
                           </Button>
                         </div>
 
-                        {(editPhotoPreview || employeeDetailModal.employee.photo) && (
+                        {(editPhotoPreview ||
+                          employeeDetailModal.employee.photo) && (
                           <Button
                             type="button"
                             variant="outline"

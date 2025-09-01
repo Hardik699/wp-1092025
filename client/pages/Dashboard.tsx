@@ -17,7 +17,6 @@ export default function Dashboard() {
           </div>
         </header>
 
-
         <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
           <Card className="group bg-slate-900/50 border-slate-700 backdrop-blur-sm hover:bg-slate-800/60 hover:border-blue-500/50 transition-all duration-300 cursor-pointer">
             <CardContent className="p-6">
@@ -103,7 +102,9 @@ export default function Dashboard() {
                 </Button>
               </div>
               <div>
-                <h3 className="text-lg font-semibold text-white mb-2">System Info</h3>
+                <h3 className="text-lg font-semibold text-white mb-2">
+                  System Info
+                </h3>
                 <p className="text-slate-400 text-sm group-hover:text-slate-300 transition-colors duration-300">
                   IT systems overview and records
                 </p>
@@ -126,7 +127,9 @@ export default function Dashboard() {
                 </Button>
               </div>
               <div>
-                <h3 className="text-lg font-semibold text-white mb-2">PC/Laptop Info</h3>
+                <h3 className="text-lg font-semibold text-white mb-2">
+                  PC/Laptop Info
+                </h3>
                 <p className="text-slate-400 text-sm group-hover:text-slate-300 transition-colors duration-300">
                   Track PC and laptop assets
                 </p>

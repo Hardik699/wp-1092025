@@ -59,7 +59,6 @@ export default function AppNav() {
     navigate("/login");
   };
 
-
   const handleViewUsers = () => {
     // Navigate to admin dashboard and scroll to users section
     if (location.pathname === "/admin") {
@@ -79,7 +78,6 @@ export default function AppNav() {
   const handleMainDashboard = () => {
     navigate("/deshbord");
   };
-
 
   return (
     <nav className="sticky top-0 z-50 border-b border-white/10 bg-slate-900/90 backdrop-blur-md">
