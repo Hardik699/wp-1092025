@@ -125,7 +125,7 @@ export default function ITDashboard() {
           </div>
         </header>
 
-        <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <section className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
           <Card className="bg-slate-900/50 border-slate-700 backdrop-blur-sm">
             <CardContent className="p-6 flex items-center justify-between">
               <div>
@@ -139,6 +139,7 @@ export default function ITDashboard() {
               </div>
             </CardContent>
           </Card>
+
           <Card className="bg-slate-900/50 border-slate-700 backdrop-blur-sm">
             <CardContent className="p-6 flex items-center justify-between">
               <div>
@@ -152,6 +153,7 @@ export default function ITDashboard() {
               </div>
             </CardContent>
           </Card>
+
           <Card className="bg-slate-900/50 border-slate-700 backdrop-blur-sm">
             <CardContent className="p-6 flex items-center justify-between">
               <div>
@@ -162,6 +164,114 @@ export default function ITDashboard() {
               </div>
               <div className="w-12 h-12 bg-purple-500/20 rounded-lg flex items-center justify-center">
                 <Building2 className="h-6 w-6 text-purple-400" />
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-slate-900/50 border-slate-700 backdrop-blur-sm">
+            <CardContent className="p-6 flex items-center justify-between">
+              <div>
+                <p className="text-slate-400 text-sm">System Status</p>
+                <p className="text-2xl font-semibold text-green-400">Online</p>
+              </div>
+              <div className="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center">
+                <CheckCircle className="h-6 w-6 text-green-400" />
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-slate-900/50 border-slate-700 backdrop-blur-sm">
+            <CardContent className="p-6 flex items-center justify-between">
+              <div>
+                <p className="text-slate-400 text-sm">Hardware Assets</p>
+                <p className="text-2xl font-semibold text-white">127</p>
+              </div>
+              <div className="w-12 h-12 bg-orange-500/20 rounded-lg flex items-center justify-center">
+                <Monitor className="h-6 w-6 text-orange-400" />
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-slate-900/50 border-slate-700 backdrop-blur-sm">
+            <CardContent className="p-6 flex items-center justify-between">
+              <div>
+                <p className="text-slate-400 text-sm">Security Alerts</p>
+                <p className="text-2xl font-semibold text-red-400">3</p>
+              </div>
+              <div className="w-12 h-12 bg-red-500/20 rounded-lg flex items-center justify-center">
+                <Shield className="h-6 w-6 text-red-400" />
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-slate-900/50 border-slate-700 backdrop-blur-sm">
+            <CardContent className="p-6 flex items-center justify-between">
+              <div>
+                <p className="text-slate-400 text-sm">Network Health</p>
+                <p className="text-2xl font-semibold text-green-400">99.8%</p>
+              </div>
+              <div className="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center">
+                <Wifi className="h-6 w-6 text-green-400" />
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-slate-900/50 border-slate-700 backdrop-blur-sm">
+            <CardContent className="p-6 flex items-center justify-between">
+              <div>
+                <p className="text-slate-400 text-sm">Storage Used</p>
+                <p className="text-2xl font-semibold text-white">73%</p>
+              </div>
+              <div className="w-12 h-12 bg-yellow-500/20 rounded-lg flex items-center justify-center">
+                <HardDrive className="h-6 w-6 text-yellow-400" />
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-slate-900/50 border-slate-700 backdrop-blur-sm">
+            <CardContent className="p-6 flex items-center justify-between">
+              <div>
+                <p className="text-slate-400 text-sm">Open Tickets</p>
+                <p className="text-2xl font-semibold text-white">12</p>
+              </div>
+              <div className="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center">
+                <Clock className="h-6 w-6 text-blue-400" />
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-slate-900/50 border-slate-700 backdrop-blur-sm">
+            <CardContent className="p-6 flex items-center justify-between">
+              <div>
+                <p className="text-slate-400 text-sm">Server Load</p>
+                <p className="text-2xl font-semibold text-white">45%</p>
+              </div>
+              <div className="w-12 h-12 bg-cyan-500/20 rounded-lg flex items-center justify-center">
+                <Activity className="h-6 w-6 text-cyan-400" />
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-slate-900/50 border-slate-700 backdrop-blur-sm">
+            <CardContent className="p-6 flex items-center justify-between">
+              <div>
+                <p className="text-slate-400 text-sm">Critical Issues</p>
+                <p className="text-2xl font-semibold text-red-400">2</p>
+              </div>
+              <div className="w-12 h-12 bg-red-500/20 rounded-lg flex items-center justify-center">
+                <AlertTriangle className="h-6 w-6 text-red-400" />
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-slate-900/50 border-slate-700 backdrop-blur-sm">
+            <CardContent className="p-6 flex items-center justify-between">
+              <div>
+                <p className="text-slate-400 text-sm">Software Licenses</p>
+                <p className="text-2xl font-semibold text-white">89</p>
+              </div>
+              <div className="w-12 h-12 bg-indigo-500/20 rounded-lg flex items-center justify-center">
+                <ServerCog className="h-6 w-6 text-indigo-400" />
               </div>
             </CardContent>
           </Card>
