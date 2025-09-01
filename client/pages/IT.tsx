@@ -76,6 +76,22 @@ export default function ITPage() {
 
     // Load available PC/Laptop IDs
     loadAvailableSystemIds();
+
+    // Check for URL parameters to pre-fill form
+    const urlParams = new URLSearchParams(window.location.search);
+    const preEmployeeId = urlParams.get('employeeId');
+    const preDepartment = urlParams.get('department');
+    const preTableNumber = urlParams.get('tableNumber');
+
+    if (preEmployeeId) {
+      setEmployeeId(preEmployeeId);
+    }
+    if (preDepartment) {
+      setDepartment(preDepartment);
+    }
+    if (preTableNumber) {
+      setTableNumber(preTableNumber);
+    }
   }, []);
 
   // Load and filter available PC/Laptop IDs
