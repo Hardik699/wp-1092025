@@ -32,7 +32,8 @@ import {
   AlertTriangle,
   CheckCircle,
   Clock,
-  Activity
+  Activity,
+  Bell
 } from "lucide-react";
 
 interface ITRecord {
