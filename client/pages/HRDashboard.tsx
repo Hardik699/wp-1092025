@@ -858,6 +858,8 @@ Generated on: ${new Date().toLocaleString()}
       editForm: {},
       activeTab: "details",
     });
+    // Clear photo preview
+    setEditPhotoPreview("");
   };
 
   const handleStartEdit = () => {
