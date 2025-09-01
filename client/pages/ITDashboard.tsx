@@ -20,6 +20,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+  DropdownMenuSeparator,
+} from "@/components/ui/dropdown-menu";
+import {
   ServerCog,
   User,
   Building2,
@@ -33,7 +40,8 @@ import {
   CheckCircle,
   Clock,
   Activity,
-  Bell
+  Bell,
+  Settings
 } from "lucide-react";
 
 interface ITRecord {
