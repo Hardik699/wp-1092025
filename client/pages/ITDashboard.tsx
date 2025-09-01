@@ -97,10 +97,37 @@ export default function ITDashboard() {
     const its = localStorage.getItem("itAccounts");
     const emps = localStorage.getItem("hrEmployees");
     const depts = localStorage.getItem("departments");
+    const pending = localStorage.getItem("pendingITNotifications");
     if (its) setRecords(JSON.parse(its));
     if (emps) setEmployees(JSON.parse(emps));
     if (depts) setDepartments(JSON.parse(depts));
+    if (pending) {
+      const notifications = JSON.parse(pending);
+      // Only show unprocessed notifications
+      setPendingNotifications(notifications.filter((n: PendingITNotification) => !n.processed));
+    }
   }, []);
+
+  const handleProcessEmployee = (notification: PendingITNotification) => {
+    // Mark notification as processed
+    const allNotifications = JSON.parse(localStorage.getItem("pendingITNotifications") || "[]");
+    const updatedNotifications = allNotifications.map((n: PendingITNotification) =>
+      n.id === notification.id ? { ...n, processed: true } : n
+    );
+    localStorage.setItem("pendingITNotifications", JSON.stringify(updatedNotifications));
+
+    // Remove from current display
+    setPendingNotifications(prev => prev.filter(n => n.id !== notification.id));
+
+    // Navigate to IT form with pre-filled data
+    const urlParams = new URLSearchParams({
+      employeeId: notification.employeeId,
+      employeeName: notification.employeeName,
+      department: notification.department,
+      tableNumber: notification.tableNumber
+    });
+    window.location.href = `/it?${urlParams.toString()}`;
+  };
 
   const stats = useMemo(() => {
     const uniqueEmpIds = new Set(records.map((r) => r.employeeId));
