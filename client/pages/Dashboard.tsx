@@ -27,7 +27,7 @@ export default function Dashboard() {
                 HR
               </CardTitle>
             </CardHeader>
-            <CardContent className="flex flex-col gap-3 relative z-10">
+            <CardContent className="flex flex-col justify-between h-32 relative z-10">
               <p className="text-slate-400 group-hover:text-slate-300 transition-colors duration-300 text-sm">
                 Manage employee data and departments
               </p>
