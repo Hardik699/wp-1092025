@@ -116,7 +116,19 @@ export default function ITDashboard() {
               </p>
             </div>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-4">
+            <div className="relative">
+              <Button
+                variant="outline"
+                size="sm"
+                className="border-slate-600 text-slate-300 hover:bg-slate-700 hover:text-white transition-all duration-300 relative"
+              >
+                <Bell className="h-4 w-4" />
+                <Badge className="absolute -top-2 -right-2 bg-red-500 text-white text-xs h-5 w-5 flex items-center justify-center p-0 rounded-full">
+                  5
+                </Badge>
+              </Button>
+            </div>
             <Button
               onClick={() => (window.location.href = "/it")}
               className="bg-blue-500 hover:bg-blue-600 text-white"
