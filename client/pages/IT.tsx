@@ -219,6 +219,24 @@ export default function ITPage() {
           </Badge>
         </header>
 
+        {isPreFilled && (
+          <Card className="bg-blue-900/30 border-blue-500/50 backdrop-blur-sm">
+            <CardContent className="p-4">
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 bg-blue-500/20 rounded-full flex items-center justify-center">
+                  <Shield className="h-4 w-4 text-blue-400" />
+                </div>
+                <div>
+                  <p className="text-blue-100 font-medium">Form Pre-filled from HR</p>
+                  <p className="text-blue-300 text-sm">
+                    Employee details have been automatically loaded from HR department
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
         <Card className="bg-slate-900/50 border-slate-700 backdrop-blur-sm">
           <CardHeader>
             <CardTitle className="text-white">Add IT Credentials</CardTitle>
