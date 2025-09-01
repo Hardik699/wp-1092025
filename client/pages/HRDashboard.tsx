@@ -275,6 +275,9 @@ export default function HRDashboard() {
     activeTab: "details",
   });
 
+  // Photo edit state
+  const [editPhotoPreview, setEditPhotoPreview] = useState<string>("");
+
   // Salary management state
   const [salaryRecords, setSalaryRecords] = useState<SalaryRecord[]>([]);
   const [salaryForm, setSalaryForm] = useState({
@@ -472,6 +475,20 @@ export default function HRDashboard() {
       }
     };
 
+  // Handle photo upload for edit form
+  const handleEditPhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const result = e.target?.result as string;
+        setEditPhotoPreview(result);
+        handleEditFormChange("photo", result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   // Handle employee creation
   const handleCreateEmployee = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -519,6 +536,26 @@ export default function HRDashboard() {
         : dept,
     );
     saveDepartments(updatedDepartments);
+
+    // Add notification for IT department
+    const pendingITNotifications = JSON.parse(
+      localStorage.getItem("pendingITNotifications") || "[]",
+    );
+    const itNotification = {
+      id: employee.id,
+      employeeId: employee.id,
+      employeeName: employee.fullName,
+      department: employee.department,
+      tableNumber: employee.tableNumber,
+      email: employee.email,
+      createdAt: new Date().toISOString(),
+      processed: false,
+    };
+    pendingITNotifications.push(itNotification);
+    localStorage.setItem(
+      "pendingITNotifications",
+      JSON.stringify(pendingITNotifications),
+    );
 
     // Reset form
     setNewEmployee({
@@ -826,6 +863,8 @@ Generated on: ${new Date().toLocaleString()}
       editForm: {},
       activeTab: "details",
     });
+    // Clear photo preview
+    setEditPhotoPreview("");
   };
 
   const handleStartEdit = () => {
@@ -835,6 +874,8 @@ Generated on: ${new Date().toLocaleString()}
         isEditing: true,
         editForm: { ...prev.employee! },
       }));
+      // Initialize photo preview with current photo
+      setEditPhotoPreview(employeeDetailModal.employee.photo || "");
     }
   };
 
@@ -844,6 +885,8 @@ Generated on: ${new Date().toLocaleString()}
       isEditing: false,
       editForm: {},
     }));
+    // Clear photo preview
+    setEditPhotoPreview("");
   };
 
   const handleSaveEmployee = () => {
@@ -2705,9 +2748,16 @@ Generated on: ${new Date().toLocaleString()}
               <CardHeader className="border-b border-slate-700">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-4">
-                    {employeeDetailModal.employee.photo && (
+                    {(employeeDetailModal.isEditing
+                      ? editPhotoPreview || employeeDetailModal.employee.photo
+                      : employeeDetailModal.employee.photo) && (
                       <img
-                        src={employeeDetailModal.employee.photo}
+                        src={
+                          employeeDetailModal.isEditing
+                            ? editPhotoPreview ||
+                              employeeDetailModal.employee.photo
+                            : employeeDetailModal.employee.photo
+                        }
                         alt={employeeDetailModal.employee.fullName}
                         className="w-16 h-16 rounded-full object-cover border-2 border-slate-600"
                       />
@@ -2813,6 +2863,77 @@ Generated on: ${new Date().toLocaleString()}
               </CardHeader>
 
               <CardContent className="p-6 space-y-8">
+                {/* Photo Upload Section (Edit Mode Only) */}
+                {employeeDetailModal.isEditing && (
+                  <div className="space-y-4">
+                    <div className="flex items-center space-x-2 border-b border-slate-700 pb-2">
+                      <Image className="h-5 w-5 text-purple-400" />
+                      <h3 className="text-lg font-semibold text-white">
+                        Employee Photo
+                      </h3>
+                    </div>
+                    <div className="flex items-center space-x-6">
+                      {/* Current/New Photo Display */}
+                      <div className="w-32 h-32 border-2 border-dashed border-slate-600 rounded-lg flex items-center justify-center bg-slate-800/30 overflow-hidden">
+                        {editPhotoPreview ||
+                        employeeDetailModal.employee.photo ? (
+                          <img
+                            src={
+                              editPhotoPreview ||
+                              employeeDetailModal.employee.photo
+                            }
+                            alt="Employee"
+                            className="w-full h-full object-cover rounded-lg"
+                          />
+                        ) : (
+                          <div className="text-center">
+                            <Image className="h-8 w-8 text-slate-500 mx-auto mb-2" />
+                            <p className="text-xs text-slate-500">No Photo</p>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Upload Buttons */}
+                      <div className="flex flex-col space-y-3">
+                        <div className="relative">
+                          <input
+                            type="file"
+                            accept="image/*"
+                            onChange={handleEditPhotoUpload}
+                            className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                          />
+                          <Button
+                            type="button"
+                            variant="outline"
+                            className="border-blue-600 text-blue-400 hover:bg-blue-600 hover:text-white"
+                          >
+                            <Upload className="h-4 w-4 mr-2" />
+                            {employeeDetailModal.employee.photo
+                              ? "Change Photo"
+                              : "Add Photo"}
+                          </Button>
+                        </div>
+
+                        {(editPhotoPreview ||
+                          employeeDetailModal.employee.photo) && (
+                          <Button
+                            type="button"
+                            variant="outline"
+                            onClick={() => {
+                              setEditPhotoPreview("");
+                              handleEditFormChange("photo", "");
+                            }}
+                            className="border-red-600 text-red-400 hover:bg-red-600 hover:text-white"
+                          >
+                            <Trash2 className="h-4 w-4 mr-2" />
+                            Remove Photo
+                          </Button>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                )}
+
                 {/* Personal Information */}
                 <div className="space-y-4">
                   <div className="flex items-center space-x-2 border-b border-slate-700 pb-2">

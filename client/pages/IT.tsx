@@ -78,6 +78,35 @@ export default function ITPage() {
     loadAvailableSystemIds();
   }, []);
 
+  // Handle URL parameters after employees are loaded
+  useEffect(() => {
+    if (employees.length > 0) {
+      // Check for URL parameters to pre-fill form
+      const urlParams = new URLSearchParams(window.location.search);
+      const preEmployeeId = urlParams.get("employeeId");
+      const preDepartment = urlParams.get("department");
+      const preTableNumber = urlParams.get("tableNumber");
+
+      if (preEmployeeId) {
+        // Verify the employee exists in the loaded data
+        const foundEmployee = employees.find((emp) => emp.id === preEmployeeId);
+        if (foundEmployee) {
+          setEmployeeId(preEmployeeId);
+          setDepartment(preDepartment || foundEmployee.department);
+          setTableNumber(preTableNumber || foundEmployee.tableNumber);
+          setIsPreFilled(true);
+
+          // Clear URL parameters after loading to clean up the URL
+          window.history.replaceState(
+            {},
+            document.title,
+            window.location.pathname,
+          );
+        }
+      }
+    }
+  }, [employees]);
+
   // Load and filter available PC/Laptop IDs
   const loadAvailableSystemIds = () => {
     const pcLaptopData = localStorage.getItem("pcLaptopAssets");
@@ -93,7 +122,9 @@ export default function ITPage() {
         : [];
 
       // Filter out assigned IDs to show only available ones
-      const available = pcLaptopIds.filter((id: string) => !assignedIds.includes(id));
+      const available = pcLaptopIds.filter(
+        (id: string) => !assignedIds.includes(id),
+      );
       setAvailableSystemIds(available);
     }
   };
@@ -127,6 +158,7 @@ export default function ITPage() {
   const [lm, setLm] = useState({ id: "", password: "", license: "standard" });
   const [notes, setNotes] = useState("");
   const [availableSystemIds, setAvailableSystemIds] = useState<string[]>([]);
+  const [isPreFilled, setIsPreFilled] = useState(false);
 
   useEffect(() => {
     if (employee) {
@@ -195,6 +227,27 @@ export default function ITPage() {
           </Badge>
         </header>
 
+        {isPreFilled && (
+          <Card className="bg-blue-900/30 border-blue-500/50 backdrop-blur-sm">
+            <CardContent className="p-4">
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 bg-blue-500/20 rounded-full flex items-center justify-center">
+                  <Shield className="h-4 w-4 text-blue-400" />
+                </div>
+                <div>
+                  <p className="text-blue-100 font-medium">
+                    Form Pre-filled from HR Notification
+                  </p>
+                  <p className="text-blue-300 text-sm">
+                    Employee Name, Department, and Table Number have been
+                    automatically loaded
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
         <Card className="bg-slate-900/50 border-slate-700 backdrop-blur-sm">
           <CardHeader>
             <CardTitle className="text-white">Add IT Credentials</CardTitle>
@@ -224,7 +277,10 @@ export default function ITPage() {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <Label className="text-slate-300">System ID</Label>
-                    <Badge variant="secondary" className="bg-slate-700 text-slate-300">
+                    <Badge
+                      variant="secondary"
+                      className="bg-slate-700 text-slate-300"
+                    >
                       {availableSystemIds.length} available
                     </Badge>
                   </div>
@@ -241,16 +297,19 @@ export default function ITPage() {
                 </div>
                 <Select value={systemId} onValueChange={setSystemId}>
                   <SelectTrigger className="bg-slate-800/50 border-slate-700 text-white">
-                    <SelectValue placeholder={
-                      availableSystemIds.length
-                        ? "Select available PC/Laptop ID"
-                        : "No PC/Laptop IDs available"
-                    } />
+                    <SelectValue
+                      placeholder={
+                        availableSystemIds.length
+                          ? "Select available PC/Laptop ID"
+                          : "No PC/Laptop IDs available"
+                      }
+                    />
                   </SelectTrigger>
                   <SelectContent className="bg-slate-800 border-slate-700 text-white max-h-64">
                     {availableSystemIds.length === 0 ? (
                       <div className="px-3 py-2 text-slate-400">
-                        No available PC/Laptop IDs. Create some in PC/Laptop Info first.
+                        No available PC/Laptop IDs. Create some in PC/Laptop
+                        Info first.
                       </div>
                     ) : (
                       availableSystemIds.map((id) => (

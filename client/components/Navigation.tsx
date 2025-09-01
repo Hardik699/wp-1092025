@@ -24,7 +24,6 @@ import {
   Users,
   Building2,
   LayoutDashboard,
-  ServerCog,
 } from "lucide-react";
 
 export default function AppNav() {
@@ -60,7 +59,6 @@ export default function AppNav() {
     navigate("/login");
   };
 
-
   const handleViewUsers = () => {
     // Navigate to admin dashboard and scroll to users section
     if (location.pathname === "/admin") {
@@ -79,10 +77,6 @@ export default function AppNav() {
 
   const handleMainDashboard = () => {
     navigate("/deshbord");
-  };
-
-  const handleIT = () => {
-    navigate("/it");
   };
 
   return (
@@ -128,16 +122,7 @@ export default function AppNav() {
                       className="border-slate-600 text-slate-300 hover:bg-slate-700 hover:text-white transition-all duration-300"
                     >
                       <LayoutDashboard className="h-4 w-4 mr-2" />
-                      Dashboard
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={handleIT}
-                      className="border-slate-600 text-slate-300 hover:bg-slate-700 hover:text-white transition-all duration-300"
-                    >
-                      <ServerCog className="h-4 w-4 mr-2" />
-                      IT
+                      IT Dashboard
                     </Button>
                     <Button
                       variant="outline"
@@ -243,18 +228,7 @@ export default function AppNav() {
                             }}
                           >
                             <LayoutDashboard className="h-4 w-4 mr-2" />
-                            Dashboard
-                          </Button>
-                          <Button
-                            variant="outline"
-                            className="w-full justify-start border-slate-600 text-slate-300 hover:bg-slate-700"
-                            onClick={() => {
-                              handleIT();
-                              setIsMobileMenuOpen(false);
-                            }}
-                          >
-                            <ServerCog className="h-4 w-4 mr-2" />
-                            IT
+                            IT Dashboard
                           </Button>
                           <Button
                             variant="outline"

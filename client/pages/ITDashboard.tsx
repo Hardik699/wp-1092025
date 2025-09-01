@@ -19,7 +19,30 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ServerCog, User, Building2, Plus, ArrowRight } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+  DropdownMenuSeparator,
+} from "@/components/ui/dropdown-menu";
+import {
+  ServerCog,
+  User,
+  Building2,
+  Plus,
+  ArrowRight,
+  Monitor,
+  Shield,
+  Wifi,
+  HardDrive,
+  AlertTriangle,
+  CheckCircle,
+  Clock,
+  Activity,
+  Bell,
+  Settings,
+} from "lucide-react";
 
 interface ITRecord {
   id: string;
@@ -51,21 +74,72 @@ interface Department {
   name: string;
 }
 
+interface PendingITNotification {
+  id: string;
+  employeeId: string;
+  employeeName: string;
+  department: string;
+  tableNumber: string;
+  email: string;
+  createdAt: string;
+  processed: boolean;
+}
+
 export default function ITDashboard() {
   const [records, setRecords] = useState<ITRecord[]>([]);
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [departments, setDepartments] = useState<Department[]>([]);
   const [query, setQuery] = useState("");
   const [deptFilter, setDeptFilter] = useState("all");
+  const [pendingNotifications, setPendingNotifications] = useState<
+    PendingITNotification[]
+  >([]);
 
   useEffect(() => {
     const its = localStorage.getItem("itAccounts");
     const emps = localStorage.getItem("hrEmployees");
     const depts = localStorage.getItem("departments");
+    const pending = localStorage.getItem("pendingITNotifications");
     if (its) setRecords(JSON.parse(its));
     if (emps) setEmployees(JSON.parse(emps));
     if (depts) setDepartments(JSON.parse(depts));
+    if (pending) {
+      const notifications = JSON.parse(pending);
+      // Only show unprocessed notifications
+      setPendingNotifications(
+        notifications.filter((n: PendingITNotification) => !n.processed),
+      );
+    }
   }, []);
+
+  const handleProcessEmployee = (notification: PendingITNotification) => {
+    // Mark notification as processed
+    const allNotifications = JSON.parse(
+      localStorage.getItem("pendingITNotifications") || "[]",
+    );
+    const updatedNotifications = allNotifications.map(
+      (n: PendingITNotification) =>
+        n.id === notification.id ? { ...n, processed: true } : n,
+    );
+    localStorage.setItem(
+      "pendingITNotifications",
+      JSON.stringify(updatedNotifications),
+    );
+
+    // Remove from current display
+    setPendingNotifications((prev) =>
+      prev.filter((n) => n.id !== notification.id),
+    );
+
+    // Navigate to IT form with pre-filled data
+    const urlParams = new URLSearchParams({
+      employeeId: notification.employeeId,
+      employeeName: notification.employeeName,
+      department: notification.department,
+      tableNumber: notification.tableNumber,
+    });
+    window.location.href = `/it?${urlParams.toString()}`;
+  };
 
   const stats = useMemo(() => {
     const uniqueEmpIds = new Set(records.map((r) => r.employeeId));
@@ -101,7 +175,84 @@ export default function ITDashboard() {
               </p>
             </div>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-4">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="border-slate-600 text-slate-300 hover:bg-slate-700 hover:text-white transition-all duration-300 relative"
+                >
+                  <Bell className="h-4 w-4" />
+                  {pendingNotifications.length > 0 && (
+                    <Badge className="absolute -top-2 -right-2 bg-red-500 text-white text-xs h-5 w-5 flex items-center justify-center p-0 rounded-full">
+                      {pendingNotifications.length}
+                    </Badge>
+                  )}
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent
+                className="bg-slate-800 border-slate-700 text-white w-80"
+                align="end"
+              >
+                {pendingNotifications.length === 0 ? (
+                  <DropdownMenuItem className="focus:bg-slate-700 cursor-default">
+                    <div className="flex items-center gap-2 text-slate-400">
+                      <CheckCircle className="h-4 w-4" />
+                      No pending IT setups
+                    </div>
+                  </DropdownMenuItem>
+                ) : (
+                  <>
+                    <div className="px-3 py-2 text-sm font-semibold text-slate-300 border-b border-slate-700">
+                      Pending IT Setups ({pendingNotifications.length})
+                    </div>
+                    {pendingNotifications.map((notification) => (
+                      <DropdownMenuItem
+                        key={notification.id}
+                        className="focus:bg-slate-700 cursor-pointer p-3"
+                        onClick={() => handleProcessEmployee(notification)}
+                      >
+                        <div className="flex flex-col gap-1 w-full">
+                          <div className="flex items-center justify-between">
+                            <span className="font-medium text-white">
+                              {notification.employeeName}
+                            </span>
+                            <Badge
+                              variant="secondary"
+                              className="bg-orange-500/20 text-orange-400 text-xs"
+                            >
+                              New
+                            </Badge>
+                          </div>
+                          <div className="text-xs text-slate-400">
+                            {notification.department} • Table{" "}
+                            {notification.tableNumber}
+                          </div>
+                          <div className="text-xs text-slate-500">
+                            Created{" "}
+                            {new Date(
+                              notification.createdAt,
+                            ).toLocaleDateString()}
+                          </div>
+                          <Button
+                            size="sm"
+                            className="bg-blue-500 hover:bg-blue-600 text-white mt-2 w-full"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleProcessEmployee(notification);
+                            }}
+                          >
+                            <Settings className="h-3 w-3 mr-1" />
+                            Process IT Setup
+                          </Button>
+                        </div>
+                      </DropdownMenuItem>
+                    ))}
+                  </>
+                )}
+              </DropdownMenuContent>
+            </DropdownMenu>
             <Button
               onClick={() => (window.location.href = "/it")}
               className="bg-blue-500 hover:bg-blue-600 text-white"
@@ -111,7 +262,7 @@ export default function ITDashboard() {
           </div>
         </header>
 
-        <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <section className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
           <Card className="bg-slate-900/50 border-slate-700 backdrop-blur-sm">
             <CardContent className="p-6 flex items-center justify-between">
               <div>
@@ -125,6 +276,7 @@ export default function ITDashboard() {
               </div>
             </CardContent>
           </Card>
+
           <Card className="bg-slate-900/50 border-slate-700 backdrop-blur-sm">
             <CardContent className="p-6 flex items-center justify-between">
               <div>
@@ -138,6 +290,7 @@ export default function ITDashboard() {
               </div>
             </CardContent>
           </Card>
+
           <Card className="bg-slate-900/50 border-slate-700 backdrop-blur-sm">
             <CardContent className="p-6 flex items-center justify-between">
               <div>
@@ -148,6 +301,114 @@ export default function ITDashboard() {
               </div>
               <div className="w-12 h-12 bg-purple-500/20 rounded-lg flex items-center justify-center">
                 <Building2 className="h-6 w-6 text-purple-400" />
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-slate-900/50 border-slate-700 backdrop-blur-sm">
+            <CardContent className="p-6 flex items-center justify-between">
+              <div>
+                <p className="text-slate-400 text-sm">System Status</p>
+                <p className="text-2xl font-semibold text-green-400">Online</p>
+              </div>
+              <div className="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center">
+                <CheckCircle className="h-6 w-6 text-green-400" />
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-slate-900/50 border-slate-700 backdrop-blur-sm">
+            <CardContent className="p-6 flex items-center justify-between">
+              <div>
+                <p className="text-slate-400 text-sm">Hardware Assets</p>
+                <p className="text-2xl font-semibold text-white">127</p>
+              </div>
+              <div className="w-12 h-12 bg-orange-500/20 rounded-lg flex items-center justify-center">
+                <Monitor className="h-6 w-6 text-orange-400" />
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-slate-900/50 border-slate-700 backdrop-blur-sm">
+            <CardContent className="p-6 flex items-center justify-between">
+              <div>
+                <p className="text-slate-400 text-sm">Security Alerts</p>
+                <p className="text-2xl font-semibold text-red-400">3</p>
+              </div>
+              <div className="w-12 h-12 bg-red-500/20 rounded-lg flex items-center justify-center">
+                <Shield className="h-6 w-6 text-red-400" />
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-slate-900/50 border-slate-700 backdrop-blur-sm">
+            <CardContent className="p-6 flex items-center justify-between">
+              <div>
+                <p className="text-slate-400 text-sm">Network Health</p>
+                <p className="text-2xl font-semibold text-green-400">99.8%</p>
+              </div>
+              <div className="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center">
+                <Wifi className="h-6 w-6 text-green-400" />
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-slate-900/50 border-slate-700 backdrop-blur-sm">
+            <CardContent className="p-6 flex items-center justify-between">
+              <div>
+                <p className="text-slate-400 text-sm">Storage Used</p>
+                <p className="text-2xl font-semibold text-white">73%</p>
+              </div>
+              <div className="w-12 h-12 bg-yellow-500/20 rounded-lg flex items-center justify-center">
+                <HardDrive className="h-6 w-6 text-yellow-400" />
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-slate-900/50 border-slate-700 backdrop-blur-sm">
+            <CardContent className="p-6 flex items-center justify-between">
+              <div>
+                <p className="text-slate-400 text-sm">Open Tickets</p>
+                <p className="text-2xl font-semibold text-white">12</p>
+              </div>
+              <div className="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center">
+                <Clock className="h-6 w-6 text-blue-400" />
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-slate-900/50 border-slate-700 backdrop-blur-sm">
+            <CardContent className="p-6 flex items-center justify-between">
+              <div>
+                <p className="text-slate-400 text-sm">Server Load</p>
+                <p className="text-2xl font-semibold text-white">45%</p>
+              </div>
+              <div className="w-12 h-12 bg-cyan-500/20 rounded-lg flex items-center justify-center">
+                <Activity className="h-6 w-6 text-cyan-400" />
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-slate-900/50 border-slate-700 backdrop-blur-sm">
+            <CardContent className="p-6 flex items-center justify-between">
+              <div>
+                <p className="text-slate-400 text-sm">Critical Issues</p>
+                <p className="text-2xl font-semibold text-red-400">2</p>
+              </div>
+              <div className="w-12 h-12 bg-red-500/20 rounded-lg flex items-center justify-center">
+                <AlertTriangle className="h-6 w-6 text-red-400" />
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-slate-900/50 border-slate-700 backdrop-blur-sm">
+            <CardContent className="p-6 flex items-center justify-between">
+              <div>
+                <p className="text-slate-400 text-sm">Software Licenses</p>
+                <p className="text-2xl font-semibold text-white">89</p>
+              </div>
+              <div className="w-12 h-12 bg-indigo-500/20 rounded-lg flex items-center justify-center">
+                <ServerCog className="h-6 w-6 text-indigo-400" />
               </div>
             </CardContent>
           </Card>
