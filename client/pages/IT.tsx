@@ -82,15 +82,22 @@ export default function ITPage() {
     const preEmployeeId = urlParams.get('employeeId');
     const preDepartment = urlParams.get('department');
     const preTableNumber = urlParams.get('tableNumber');
+    const employeeName = urlParams.get('employeeName');
 
     if (preEmployeeId) {
       setEmployeeId(preEmployeeId);
+      setIsPreFilled(true);
     }
     if (preDepartment) {
       setDepartment(preDepartment);
     }
     if (preTableNumber) {
       setTableNumber(preTableNumber);
+    }
+
+    // Clear URL parameters after loading to clean up the URL
+    if (preEmployeeId) {
+      window.history.replaceState({}, document.title, window.location.pathname);
     }
   }, []);
 
