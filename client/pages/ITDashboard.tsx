@@ -91,6 +91,7 @@ export default function ITDashboard() {
   const [departments, setDepartments] = useState<Department[]>([]);
   const [query, setQuery] = useState("");
   const [deptFilter, setDeptFilter] = useState("all");
+  const [pendingNotifications, setPendingNotifications] = useState<PendingITNotification[]>([]);
 
   useEffect(() => {
     const its = localStorage.getItem("itAccounts");
