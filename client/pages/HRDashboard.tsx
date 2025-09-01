@@ -520,6 +520,21 @@ export default function HRDashboard() {
     );
     saveDepartments(updatedDepartments);
 
+    // Add notification for IT department
+    const pendingITNotifications = JSON.parse(localStorage.getItem("pendingITNotifications") || "[]");
+    const itNotification = {
+      id: employee.id,
+      employeeId: employee.id,
+      employeeName: employee.fullName,
+      department: employee.department,
+      tableNumber: employee.tableNumber,
+      email: employee.email,
+      createdAt: new Date().toISOString(),
+      processed: false
+    };
+    pendingITNotifications.push(itNotification);
+    localStorage.setItem("pendingITNotifications", JSON.stringify(pendingITNotifications));
+
     // Reset form
     setNewEmployee({
       fullName: "",
