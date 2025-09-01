@@ -55,7 +55,7 @@ export default function Dashboard() {
           </Card>
         </section>
 
-        <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <section className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
           <Card className="bg-slate-900/50 border-slate-700 backdrop-blur-sm">
             <CardHeader>
               <CardTitle className="text-white">HR</CardTitle>
@@ -82,6 +82,24 @@ export default function Dashboard() {
               <Button
                 onClick={() => navigate("/admin")}
                 className="bg-blue-500 hover:bg-blue-600 text-white"
+              >
+                Go <ArrowRight className="h-4 w-4 ml-2" />
+              </Button>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-slate-900/50 border-slate-700 backdrop-blur-sm">
+            <CardHeader>
+              <CardTitle className="text-white flex items-center gap-2">
+                <ServerCog className="h-5 w-5 text-orange-400" />
+                IT
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="flex items-center justify-between">
+              <p className="text-slate-400">IT accounts and credentials management</p>
+              <Button
+                onClick={() => navigate("/it-dashboard")}
+                className="bg-orange-500 hover:bg-orange-600 text-white"
               >
                 Go <ArrowRight className="h-4 w-4 ml-2" />
               </Button>
