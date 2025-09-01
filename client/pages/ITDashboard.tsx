@@ -164,18 +164,76 @@ export default function ITDashboard() {
             </div>
           </div>
           <div className="flex items-center gap-4">
-            <div className="relative">
-              <Button
-                variant="outline"
-                size="sm"
-                className="border-slate-600 text-slate-300 hover:bg-slate-700 hover:text-white transition-all duration-300 relative"
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="border-slate-600 text-slate-300 hover:bg-slate-700 hover:text-white transition-all duration-300 relative"
+                >
+                  <Bell className="h-4 w-4" />
+                  {pendingNotifications.length > 0 && (
+                    <Badge className="absolute -top-2 -right-2 bg-red-500 text-white text-xs h-5 w-5 flex items-center justify-center p-0 rounded-full">
+                      {pendingNotifications.length}
+                    </Badge>
+                  )}
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent
+                className="bg-slate-800 border-slate-700 text-white w-80"
+                align="end"
               >
-                <Bell className="h-4 w-4" />
-                <Badge className="absolute -top-2 -right-2 bg-red-500 text-white text-xs h-5 w-5 flex items-center justify-center p-0 rounded-full">
-                  5
-                </Badge>
-              </Button>
-            </div>
+                {pendingNotifications.length === 0 ? (
+                  <DropdownMenuItem className="focus:bg-slate-700 cursor-default">
+                    <div className="flex items-center gap-2 text-slate-400">
+                      <CheckCircle className="h-4 w-4" />
+                      No pending IT setups
+                    </div>
+                  </DropdownMenuItem>
+                ) : (
+                  <>
+                    <div className="px-3 py-2 text-sm font-semibold text-slate-300 border-b border-slate-700">
+                      Pending IT Setups ({pendingNotifications.length})
+                    </div>
+                    {pendingNotifications.map((notification) => (
+                      <DropdownMenuItem
+                        key={notification.id}
+                        className="focus:bg-slate-700 cursor-pointer p-3"
+                        onClick={() => handleProcessEmployee(notification)}
+                      >
+                        <div className="flex flex-col gap-1 w-full">
+                          <div className="flex items-center justify-between">
+                            <span className="font-medium text-white">
+                              {notification.employeeName}
+                            </span>
+                            <Badge variant="secondary" className="bg-orange-500/20 text-orange-400 text-xs">
+                              New
+                            </Badge>
+                          </div>
+                          <div className="text-xs text-slate-400">
+                            {notification.department} • Table {notification.tableNumber}
+                          </div>
+                          <div className="text-xs text-slate-500">
+                            Created {new Date(notification.createdAt).toLocaleDateString()}
+                          </div>
+                          <Button
+                            size="sm"
+                            className="bg-blue-500 hover:bg-blue-600 text-white mt-2 w-full"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleProcessEmployee(notification);
+                            }}
+                          >
+                            <Settings className="h-3 w-3 mr-1" />
+                            Process IT Setup
+                          </Button>
+                        </div>
+                      </DropdownMenuItem>
+                    ))}
+                  </>
+                )}
+              </DropdownMenuContent>
+            </DropdownMenu>
             <Button
               onClick={() => (window.location.href = "/it")}
               className="bg-blue-500 hover:bg-blue-600 text-white"
