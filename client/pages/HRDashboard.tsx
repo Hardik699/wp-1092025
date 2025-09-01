@@ -867,6 +867,8 @@ Generated on: ${new Date().toLocaleString()}
         isEditing: true,
         editForm: { ...prev.employee! },
       }));
+      // Initialize photo preview with current photo
+      setEditPhotoPreview(employeeDetailModal.employee.photo || "");
     }
   };
 
@@ -876,6 +878,8 @@ Generated on: ${new Date().toLocaleString()}
       isEditing: false,
       editForm: {},
     }));
+    // Clear photo preview
+    setEditPhotoPreview("");
   };
 
   const handleSaveEmployee = () => {
