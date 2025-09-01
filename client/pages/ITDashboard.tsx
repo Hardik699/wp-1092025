@@ -19,7 +19,21 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ServerCog, User, Building2, Plus, ArrowRight } from "lucide-react";
+import {
+  ServerCog,
+  User,
+  Building2,
+  Plus,
+  ArrowRight,
+  Monitor,
+  Shield,
+  Wifi,
+  HardDrive,
+  AlertTriangle,
+  CheckCircle,
+  Clock,
+  Activity
+} from "lucide-react";
 
 interface ITRecord {
   id: string;
